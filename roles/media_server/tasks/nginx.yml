@@ -1,0 +1,17 @@
+---
+# tasks file for media_server
+- name: Install Nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+- name: Copy the Nginx configuration file to the host
+  ansible.builtin.template:
+    src: templates/nginx.conf.j2
+    dest: /etc/nginx/sites-available/default
+    mode: 0644
+- name: Create link to the new config to enable it
+  ansible.builtin.file:
+    dest: /etc/nginx/sites-enabled/default
+    src: /etc/nginx/sites-available/default
+    state: link
+  notify: Restart the Nginx service

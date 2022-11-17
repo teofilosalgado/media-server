@@ -1,0 +1,46 @@
+---
+- name: Installing dependencies
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - gnupg
+      - ca-certificates
+    state: present
+- name: Adding Mono apt key
+  become: true
+  ansible.builtin.apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+- name: Adding Mono repository into sources list
+  become: true
+  ansible.builtin.apt_repository:
+    repo: deb https://download.mono-project.com/repo/ubuntu stable-{{ ansible_distribution_release }} main
+    state: present
+- name: Adding MediaInfo apt key
+  become: true
+  ansible.builtin.get_url:
+    url: https://mediaarea.net/repo/deb/ubuntu/pubkey.gpg
+    dest: /etc/apt/trusted.gpg.d/mediaarea.asc
+    mode: 0644
+- name: Adding MediaInfo repository into sources list
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb https://mediaarea.net/repo/deb/ubuntu {{ ansible_distribution_release }} main"
+    state: present
+- name: Adding Sonarr apt key
+  become: true
+  ansible.builtin.apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 2009837CBFFD68F45BC180471F4F90DE2A9B4BF8
+- name: Adding Sonarr repository into sources list
+  become: true
+  ansible.builtin.apt_repository:
+    repo: deb https://apt.sonarr.tv/ubuntu {{ ansible_distribution_release }} main
+    state: present
+- name: Installing Sonarr
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - sonarr
+    state: present
+  notify: Restart the Sonarr service

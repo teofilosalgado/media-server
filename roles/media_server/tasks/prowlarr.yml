@@ -1,0 +1,60 @@
+---
+- name: Creating groups
+  become: true
+  ansible.builtin.group:
+    name: prowlarr
+    state: present
+- name: Creating users
+  become: true
+  ansible.builtin.user:
+    name: prowlarr
+    group: prowlarr
+    state: present
+- name: Creating directories
+  become: true
+  ansible.builtin.file:
+    path: /var/lib/prowlarr
+    state: directory
+    owner: prowlarr
+    group: prowlarr
+    mode: 0775
+- name: Installing dependencies
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - curl
+      - sqlite3
+    state: present
+- name: Downloading binaries
+  ansible.builtin.get_url:
+    url: http://prowlarr.servarr.com/v1/update/develop/updatefile?os=linux&runtime=netcore&arch=x64
+    dest: /tmp/Prowlarr.tar.gz
+    mode: 0644
+- name: Extracting binaries
+  become: true
+  ansible.builtin.unarchive:
+    src: /tmp/Prowlarr.tar.gz
+    dest: /opt
+- name: Ensuring ownership
+  become: true
+  ansible.builtin.file:
+    path: /opt/Prowlarr
+    owner: prowlarr
+    group: prowlarr
+- name: Removing downloads
+  ansible.builtin.file:
+    state: absent
+    path: /tmp/Prowlarr.tar.gz
+- name: Copying service file
+  become: true
+  ansible.builtin.copy:
+    src: prowlarr.service
+    dest: /etc/systemd/system/prowlarr.service
+    mode: 0644
+- name: Starting service
+  become: true
+  ansible.builtin.systemd:
+    name: prowlarr
+    enabled: true
+    state: started
+  notify: Restart the Prowlarr service

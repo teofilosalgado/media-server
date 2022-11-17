@@ -1,0 +1,60 @@
+---
+- name: Creating groups
+  become: true
+  ansible.builtin.group:
+    name: radarr
+    state: present
+- name: Creating users
+  become: true
+  ansible.builtin.user:
+    name: radarr
+    group: radarr
+    state: present
+- name: Creating directories
+  become: true
+  ansible.builtin.file:
+    path: /var/lib/radarr
+    state: directory
+    owner: radarr
+    group: radarr
+    mode: 0775
+- name: Installing dependencies
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - curl
+      - sqlite3
+    state: present
+- name: Downloading binaries
+  ansible.builtin.get_url:
+    url: http://radarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64
+    dest: /tmp/Radarr.tar.gz
+    mode: 0644
+- name: Extracting binaries
+  become: true
+  ansible.builtin.unarchive:
+    src: /tmp/Radarr.tar.gz
+    dest: /opt
+- name: Ensuring ownership
+  become: true
+  ansible.builtin.file:
+    path: /opt/Radarr
+    owner: radarr
+    group: radarr
+- name: Removing downloads
+  ansible.builtin.file:
+    state: absent
+    path: /tmp/Radarr.tar.gz
+- name: Copying service file
+  become: true
+  ansible.builtin.copy:
+    src: radarr.service
+    dest: /etc/systemd/system/radarr.service
+    mode: 0644
+- name: Starting service
+  become: true
+  ansible.builtin.systemd:
+    name: radarr
+    enabled: true
+    state: started
+  notify: Restart the Radarr service

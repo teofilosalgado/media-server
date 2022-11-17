@@ -1,0 +1,4 @@
+---
+# vars file for media_server
+sonarr_root_folder_path: /data/series
+radarr_root_folder_path: /data/movies

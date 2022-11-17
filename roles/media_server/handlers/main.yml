@@ -1,0 +1,26 @@
+---
+# handlers file for media_server
+- name: Restart the Jellyfin service
+  service:
+    name: jellyfin
+    state: restarted
+- name: Restart the Sonarr service
+  service:
+    name: sonarr
+    state: restarted
+- name: Restart the Radarr service
+  service:
+    name: radarr
+    state: restarted
+- name: Restart the Prowlarr service
+  service:
+    name: prowlarr
+    state: restarted
+- name: Restart the qBittorrent service
+  service:
+    name: qbittorrent
+    state: restarted
+- name: Restart the Nginx service
+  service:
+    name: nginx
+    state: restarted

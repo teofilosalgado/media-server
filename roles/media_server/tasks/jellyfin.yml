@@ -1,0 +1,19 @@
+---
+- name: Addding Jellyfin apt key
+  become: true
+  ansible.builtin.apt_key:
+    url: https://repo.jellyfin.org/jellyfin_team.gpg.key
+    state: present
+- name: Addding Jellyfin repository into sources list
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb https://repo.jellyfin.org/ubuntu focal main"
+    state: present
+    filename: jellyfin
+- name: Installing Jellyfin
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - jellyfin
+    state: present
+  notify: Restart the Jellyfin service

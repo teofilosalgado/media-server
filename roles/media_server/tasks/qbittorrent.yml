@@ -1,0 +1,31 @@
+---
+- name: Creating groups
+  become: true
+  ansible.builtin.group:
+    name: qbittorrent
+    state: present
+- name: Creating users
+  become: true
+  ansible.builtin.user:
+    name: qbittorrent
+    group: qbittorrent
+    state: present
+- name: Installing qBittorrent-nox
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - qbittorrent-nox
+    state: present
+- name: Copying service file
+  become: true
+  ansible.builtin.copy:
+    src: qbittorrent.service
+    dest: /etc/systemd/system/qbittorrent.service
+    mode: 0644
+- name: Starting service
+  become: true
+  ansible.builtin.systemd:
+    name: qbittorrent
+    enabled: true
+    state: started
+  notify: Restart the qBittorrent service

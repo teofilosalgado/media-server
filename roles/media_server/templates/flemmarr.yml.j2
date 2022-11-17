@@ -1,0 +1,597 @@
+sonarr:
+  server:
+    address: localhost
+    port: 8989
+  config:
+    host:
+      analyticsEnabled: false
+      urlBase: /sonarr
+    ui:
+      firstDayOfWeek: 0
+      timeFormat: HH:mm
+    naming:
+      renameEpisodes: true
+      replaceIllegalCharacters: true
+      multiEpisodeStyle: 0
+      standardEpisodeFormat: "{Series Title} - S{season:00}E{episode:00} - {Episode Title} {Quality Full}"
+      dailyEpisodeFormat: "{Series Title} - {Air-Date} - {Episode Title} {Quality Full}"
+      animeEpisodeFormat: "{Series Title} - S{season:00}E{episode:00} - {Episode Title} {Quality Full}"
+      seriesFolderFormat: "{Series Title}"
+      seasonFolderFormat: Season {season}
+      specialsFolderFormat: Specials
+      includeSeriesTitle: false
+      includeEpisodeTitle: false
+      includeQuality: false
+      replaceSpaces: true
+      separator: " - "
+      numberStyle: S{season:00}E{episode:00}
+  rootfolder:
+    - name: Series
+      path: /home/sonarr/series
+      defaultTags: []
+      defaultQualityProfileId: 1
+      defaultMetadataProfileId: 1
+  downloadclient:
+    - name: qBittorrent
+      enable: true
+      protocol: torrent
+      priority: 1
+      removeCompletedDownloads: true
+      removeFailedDownloads: true
+      fields:
+        - name: host
+          value: localhost
+        - name: port
+          value: 8080
+        - name: useSsl
+          value: false
+        - name: username
+          value: admin
+        - name: password
+          value: adminadmin
+        - name: tvCategory
+          value: sonarr
+        - name: recentTvPriority
+          value: 0
+        - name: olderTvPriority
+          value: 0
+        - name: initialState
+          value: 0
+        - name: sequentialOrder
+          value: false
+        - name: firstAndLast
+          value: false
+      implementationName: qBittorrent
+      implementation: QBittorrent
+      configContract: QBittorrentSettings
+radarr:
+  server:
+    address: localhost
+    port: 7878
+  config:
+    host:
+      analyticsEnabled: false
+      urlBase: /radarr
+    ui:
+      firstDayOfWeek: 0
+      timeFormat: HH:mm
+      uiLanguage: 1
+    naming:
+      renameMovies: true
+      replaceIllegalCharacters: true
+      colonReplacementFormat: delete
+      standardMovieFormat: "{Movie Title} ({Release Year}) {Quality Full}"
+      movieFolderFormat: "{Movie Title} ({Release Year})"
+      includeQuality: false
+      replaceSpaces: false
+  rootfolder:
+    - name: Movies
+      path: /home/radarr/movies
+      defaultTags: []
+      defaultQualityProfileId: 1
+      defaultMetadataProfileId: 1
+  downloadclient:
+    - name: qBittorrent
+      enable: true
+      protocol: torrent
+      priority: 1
+      removeCompletedDownloads: true
+      removeFailedDownloads: true
+      fields:
+        - name: host
+          value: localhost
+        - name: port
+          value: 8080
+        - name: useSsl
+          value: false
+        - name: username
+          value: admin
+        - name: password
+          value: adminadmin
+        - name: movieCategory
+          value: radarr
+        - name: recentMoviePriority
+          value: 0
+        - name: olderMoviePriority
+          value: 0
+        - name: initialState
+          value: 0
+        - name: sequentialOrder
+          value: false
+        - name: firstAndLast
+          value: false
+      implementationName: qBittorrent
+      implementation: QBittorrent
+      configContract: QBittorrentSettings
+prowlarr:
+  server:
+    address: localhost
+    port: 9696
+  config:
+    host:
+      analyticsEnabled: false
+    ui:
+      theme: light
+  indexer:
+    - indexerUrls:
+        - https://yts.mx/
+        - https://yts.unblockit.page/
+        - https://yts.unblockninja.com/
+        - https://yts.nocensor.world/
+      legacyUrls:
+        - https://yts.ag/
+        - https://yts.am/
+        - https://yts.lt/
+        - https://yts.unblockit.ch/
+        - https://yts.unblockit.ws/
+        - https://yts.nocensor.space/
+        - https://yts.nocensor.work/
+        - https://yts.unblockit.kim/
+        - https://yts.unblockit.bz/
+        - https://yts.unblockit.tv/
+        - https://yts.unblockit.how/
+        - https://yts.unblockit.cam/
+        - https://yts.nocensor.biz/
+        - https://yts.unblockit.day/
+        - https://yts.unblockit.llc/
+        - https://yts.unblockit.blue/
+        - https://yts.unblockit.name/
+        - https://yts.nocensor.sbs/
+        - https://yts.unblockit.ist/
+        - https://yts.unblockit.bet/
+        - https://yts.unblockit.cat/
+        - https://yts.unblockit.nz/
+      definitionName: yts
+      description: YTS is a Public torrent site specialising in HD movies of small size
+      language: en-US
+      enable: true
+      redirect: false
+      supportsRss: true
+      supportsSearch: true
+      supportsRedirect: false
+      appProfileId: 1
+      protocol: torrent
+      privacy: public
+      capabilities:
+        limitsMax: 100
+        limitsDefault: 100
+        categories: []
+        supportsRawSearch: false
+        searchParams:
+          - q
+        tvSearchParams: []
+        movieSearchParams: []
+        musicSearchParams: []
+        bookSearchParams: []
+      priority: 25
+      added: "0001-01-01T00:00:00Z"
+      sortName: yts
+      name: YTS
+      fields:
+        - name: definitionFile
+          value: yts
+        - name: baseUrl
+        - name: baseSettings.queryLimit
+        - name: baseSettings.grabLimit
+        - name: torrentBaseSettings.seedRatio
+          value: "0"
+        - name: torrentBaseSettings.seedTime
+          value: 0
+      implementationName: Cardigann
+      implementation: Cardigann
+      configContract: CardigannSettings
+      infoLink: https://wiki.servarr.com/prowlarr/supported-indexers#yts
+      tags: []
+    - indexerUrls:
+        - https://thepiratebay.org/
+        - https://piratebayo3klnzokct3wt5yyxb2vpebbuyjl7m623iaxmqhsd52coid.onion.ws/
+        - https://piratebayo3klnzokct3wt5yyxb2vpebbuyjl7m623iaxmqhsd52coid.onion.pet/
+        - https://tpb24.ukpass.co/
+        - https://thepiratebay.host/
+        - https://thepiratebay.d4.re/
+        - https://tpb.skynetcloud.site/
+        - https://piratetoday.xyz/
+        - https://piratenow.xyz/
+        - https://pirate-proxy.page/
+        - https://mirrorbay.top/
+        - https://5mins.shop/
+        - https://tpb.surf/
+        - https://tpb.monster/
+        - https://tpb.wtf/
+        - https://proxifiedpiratebay.org/
+        - https://unlockedpiratebay.com/
+        - https://tpb.one/
+        - https://piratebayorg.net/
+        - https://tpbproxy.click/
+        - https://thepiratebay0.org/
+        - https://thepiratebay10.org/
+        - https://pirateproxy.live/
+        - https://thehiddenbay.com/
+        - https://thepiratebay.zone/
+        - https://tpb.party/
+        - https://piratebayproxy.live/
+        - https://piratebay.live/
+        - https://piratebay.party/
+        - https://thepiratebay.party/
+      legacyUrls:
+        - https://piratebayo3klnzokct3wt5yyxb2vpebbuyjl7m623iaxmqhsd52coid.onion.ly/
+        - https://pirateproxy.dev/
+        - https://tpb19.ukpass.co/
+        - https://pirateproxy.tube/
+        - https://www.tpbay.win/
+        - https://baypirated.site/
+        - https://piratesbaycc.com/
+        - https://pirateproxy.ltda/
+        - https://tpb22.ukpass.co/
+        - https://tpb.sadzawka.tk/
+        - https://tpb.cnp.cx/
+        - https://pirate-proxy.app/
+        - https://thepb.cyou/
+        - https://5mins.eu/
+        - https://piratebayproxy.buzz/
+        - https://wearethereal.ninja/
+        - https://bibtor.com/
+        - https://gigatorrent.xyz/
+        - https://thepirateb.xyz/
+        - https://ezrasstuff.com/
+      definitionName: thepiratebay
+      description: The Pirate Bay (TPB) is the galaxy’s most resilient Public BitTorrent site
+      language: en-US
+      enable: true
+      redirect: false
+      supportsRss: true
+      supportsSearch: true
+      supportsRedirect: false
+      appProfileId: 1
+      protocol: torrent
+      privacy: public
+      capabilities:
+        limitsMax: 100
+        limitsDefault: 100
+        categories: []
+        supportsRawSearch: false
+        searchParams:
+          - q
+        tvSearchParams: []
+        movieSearchParams: []
+        musicSearchParams: []
+        bookSearchParams: []
+      priority: 25
+      added: "0001-01-01T00:00:00Z"
+      sortName: pirate bay
+      name: The Pirate Bay
+      fields:
+        - name: definitionFile
+          value: thepiratebay
+        - name: baseUrl
+          value: https://thepiratebay.org/
+        - name: baseSettings.queryLimit
+        - name: baseSettings.grabLimit
+        - name: torrentBaseSettings.seedRatio
+          value: "0"
+        - name: torrentBaseSettings.seedTime
+          value: 0
+      implementationName: Cardigann
+      implementation: Cardigann
+      configContract: CardigannSettings
+      infoLink: https://wiki.servarr.com/prowlarr/supported-indexers#thepiratebay
+      tags: []
+    - indexerUrls:
+        - https://kickasstorrents.to/
+        - https://kickasstorrent.cr/
+        - https://katcr.to/
+        - https://kickasstorrents.unblockninja.com/
+      legacyUrls:
+        - https://kat.root.yt/
+      definitionName: kickasstorrents-to
+      description: kickasstorrents.to is a Public KickAssTorrent clone for TV / MOVIES / GENERAL
+      language: en-US
+      enable: true
+      redirect: false
+      supportsRss: true
+      supportsSearch: true
+      supportsRedirect: false
+      appProfileId: 1
+      protocol: torrent
+      privacy: public
+      capabilities:
+        limitsMax: 100
+        limitsDefault: 100
+        categories: []
+        supportsRawSearch: false
+        searchParams:
+          - q
+        tvSearchParams: []
+        movieSearchParams: []
+        musicSearchParams: []
+        bookSearchParams: []
+      priority: 25
+      added: "0001-01-01T00:00:00Z"
+      sortName: kickasstorrents to
+      name: kickasstorrents.to
+      fields:
+        - name: definitionFile
+          value: kickasstorrents-to
+        - name: baseUrl
+          value: https://kickasstorrents.to/
+        - name: baseSettings.queryLimit
+        - name: baseSettings.grabLimit
+        - name: torrentBaseSettings.seedRatio
+          value: "0"
+        - name: torrentBaseSettings.seedTime
+          value: 0
+        - name: sort
+          value: 2
+        - name: type
+          value: 1
+      implementationName: Cardigann
+      implementation: Cardigann
+      configContract: CardigannSettings
+      infoLink: https://wiki.servarr.com/prowlarr/supported-indexers#kickasstorrents-to
+      tags: []
+    - indexerUrls:
+        - https://solidtorrents.to/
+      legacyUrls:
+        - https://solidtorrents.net/
+      definitionName: solidtorrents
+      description: Solid Torrents is a Public torrent meta-search engine
+      language: en-US
+      enable: true
+      redirect: false
+      supportsRss: true
+      supportsSearch: true
+      supportsRedirect: false
+      appProfileId: 1
+      protocol: torrent
+      privacy: public
+      capabilities:
+        limitsMax: 100
+        limitsDefault: 100
+        categories: []
+        supportsRawSearch: false
+        searchParams:
+          - q
+        tvSearchParams: []
+        movieSearchParams: []
+        musicSearchParams: []
+        bookSearchParams: []
+      priority: 25
+      added: "0001-01-01T00:00:00Z"
+      sortName: solid torrents
+      name: Solid Torrents
+      fields:
+        - name: definitionFile
+          value: solidtorrents
+        - name: baseUrl
+          value: https://solidtorrents.to/
+        - name: baseSettings.queryLimit
+        - name: baseSettings.grabLimit
+        - name: torrentBaseSettings.seedRatio
+          value: "0"
+        - name: torrentBaseSettings.seedTime
+          value: 0
+        - name: sort
+          value: 0
+        - name: type
+          value: 1
+      implementationName: Cardigann
+      implementation: Cardigann
+      configContract: CardigannSettings
+      infoLink: https://wiki.servarr.com/prowlarr/supported-indexers#solidtorrents
+      tags: []
+    - indexerUrls:
+        - https://eztv.re/
+        - https://eztv.wf/
+        - https://eztv.tf/
+        - https://eztv.yt/
+        - https://eztv1.xyz/
+        - https://eztv.unblockninja.com/
+        - https://eztv.unblockit.page/
+        - https://eztv.nocensor.world/
+      legacyUrls:
+        - https://eztv.ag/
+        - https://eztv.it/
+        - https://eztv.ch/
+        - https://eztv.io/
+        - https://eztv.unblocked.monster/
+        - https://eztv.unblockit.ch/
+        - https://eztv.nocensor.space/
+        - https://eztv.unblockit.ws/
+        - https://eztv.nocensor.work/
+        - https://eztv.unblockit.kim/
+        - https://eztv.unblockit.bz/
+        - https://eztv.unblockit.tv/
+        - https://eztv.unblockit.how/
+        - https://eztv.unblockit.cam/
+        - https://eztv.nocensor.biz/
+        - https://eztv.unblockit.day/
+        - https://eztv.unblockit.llc/
+        - https://eztv.unblockit.blue/
+        - https://eztv.unblockit.name/
+        - https://eztv.nocensor.sbs/
+        - https://eztv.unblockit.ist/
+        - https://eztv.unblockit.bet/
+        - https://eztv.unblockit.cat/
+        - https://eztv.unblockit.nz/
+      definitionName: eztv
+      description: EZTV is a Public torrent site for TV shows
+      language: en-US
+      enable: true
+      redirect: false
+      supportsRss: true
+      supportsSearch: true
+      supportsRedirect: false
+      appProfileId: 1
+      protocol: torrent
+      privacy: public
+      capabilities:
+        limitsMax: 100
+        limitsDefault: 100
+        categories: []
+        supportsRawSearch: false
+        searchParams:
+          - q
+        tvSearchParams: []
+        movieSearchParams: []
+        musicSearchParams: []
+        bookSearchParams: []
+      priority: 25
+      added: "0001-01-01T00:00:00Z"
+      sortName: eztv
+      name: EZTV
+      fields:
+        - name: definitionFile
+          value: eztv
+        - name: baseUrl
+          value: https://eztv.re/
+        - name: baseSettings.queryLimit
+        - name: baseSettings.grabLimit
+        - name: torrentBaseSettings.seedRatio
+          value: "0"
+        - name: torrentBaseSettings.seedTime
+          value: 0
+      implementationName: Cardigann
+      implementation: Cardigann
+      configContract: CardigannSettings
+      infoLink: https://wiki.servarr.com/prowlarr/supported-indexers#eztv
+      tags: []
+    - indexerUrls:
+        - https://nyaa.si/
+        - https://nyaa.iss.ink/
+        - https://nyaa.nocensor.world/
+      legacyUrls:
+        - https://nyaa.black-mirror.xyz/
+        - https://nyaa.unblocked.casa/
+        - https://nyaa.proxyportal.fun/
+        - https://nyaa.uk-unblock.xyz/
+        - https://nyaa.ind-unblock.xyz/
+        - https://nyaa.unblocked.bar/
+        - https://nyaa.proxyportal.pw/
+        - https://nyaa.uk-unblock.pro/
+        - https://nyaa.root.yt/
+        - https://nyaa.lol/
+      definitionName: nyaasi
+      description:
+        Nyaa is a Public torrent site focused on Eastern Asian media including
+        anime, manga, literature and music
+      language: en-US
+      enable: true
+      redirect: false
+      supportsRss: true
+      supportsSearch: true
+      supportsRedirect: false
+      appProfileId: 1
+      protocol: torrent
+      privacy: public
+      capabilities:
+        limitsMax: 100
+        limitsDefault: 100
+        categories: []
+        supportsRawSearch: false
+        searchParams:
+          - q
+        tvSearchParams: []
+        movieSearchParams: []
+        musicSearchParams: []
+        bookSearchParams: []
+      priority: 25
+      added: "0001-01-01T00:00:00Z"
+      sortName: nyaa si
+      name: Nyaa.si
+      fields:
+        - name: definitionFile
+          value: nyaasi
+        - name: baseUrl
+          value: https://nyaa.si/
+        - name: baseSettings.queryLimit
+        - name: baseSettings.grabLimit
+        - name: torrentBaseSettings.seedRatio
+          value: "0"
+        - name: torrentBaseSettings.seedTime
+          value: 0
+        - name: filter-id
+          value: 0
+        - name: cat-id
+          value: 0
+        - name: sort
+          value: 0
+        - name: type
+          value: 1
+      implementationName: Cardigann
+      implementation: Cardigann
+      configContract: CardigannSettings
+      infoLink: https://wiki.servarr.com/prowlarr/supported-indexers#nyaasi
+      tags: []
+  applications:
+    - name: Sonarr
+      syncLevel: addOnly
+      fields:
+        - name: prowlarrUrl
+          value: http://localhost:9696
+        - name: baseUrl
+          value: http://localhost:8989/sonarr
+        - name: apiKey
+          value: {{ sonarr_api_key.stdout }}
+        - name: syncCategories
+          value:
+            - 5000
+            - 5010
+            - 5020
+            - 5030
+            - 5040
+            - 5045
+            - 5050
+        - name: animeSyncCategories
+          value:
+            - 5070
+      implementationName: Sonarr
+      implementation: Sonarr
+      configContract: SonarrSettings
+      infoLink: https://wiki.servarr.com/prowlarr/supported#sonarr
+      tags: []
+    - name: Radarr
+      syncLevel: addOnly
+      fields:
+        - name: prowlarrUrl
+          value: http://localhost:9696
+        - name: baseUrl
+          value: http://localhost:7878/radarr
+        - name: apiKey
+          value: {{ radarr_api_key.stdout }}
+        - name: syncCategories
+          value:
+            - 2000
+            - 2010
+            - 2020
+            - 2030
+            - 2040
+            - 2045
+            - 2050
+            - 2060
+            - 2070
+            - 2080
+      implementationName: Radarr
+      implementation: Radarr
+      configContract: RadarrSettings
+      infoLink: https://wiki.servarr.com/prowlarr/supported#radarr
+      tags: []
