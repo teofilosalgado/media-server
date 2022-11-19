@@ -1,5 +1,0 @@
-- name: Build media server
-  hosts: localhost
-  become: true
-  roles:
-    - media_server

@@ -1,5 +1,0 @@
-{
-  "yaml.schemas": {
-    "https://raw.githubusercontent.com/ansible/schemas/main/f/ansible-meta.json": "file:///home/salgado/workspace/ansible/main.yml"
-  }
-}
