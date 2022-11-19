@@ -11,11 +11,7 @@ All requirements will be installed during execution. This role assumes a fresh F
 
 ## Role Variables
 
-```
-vars:
-  sonarr_root_folder_path: /data/series
-  radarr_root_folder_path: /data/movies
-```
+It is opinionated, remember? No variables.
 
 ## Example Playbook
 
@@ -24,9 +20,6 @@ vars:
   remote_user: root
   roles:
     - role: media_server
-      vars:
-        sonarr_root_folder_path: /data/series
-        radarr_root_folder_path: /data/movies
 
 ```
 
