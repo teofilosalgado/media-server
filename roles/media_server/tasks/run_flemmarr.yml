@@ -9,6 +9,7 @@
   ansible.builtin.git:
     repo: https://github.com/Flemmarr/Flemmarr.git
     dest: /tmp/flemmar
+    version: master
 - name: Install packages
   ansible.builtin.pip:
     chdir: /tmp/flemmar/src
