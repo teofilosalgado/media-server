@@ -1,0 +1,5 @@
+---
+- hosts: media_server
+  remote_user: root
+  roles:
+    - media_server

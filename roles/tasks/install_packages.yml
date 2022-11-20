@@ -1,0 +1,25 @@
+---
+- name: Create repository configuration folder
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/etc/pkg/repos
+    state: directory
+- name: Copy base repository configuration
+  become: true
+  ansible.builtin.copy:
+    src: /etc/pkg/FreeBSD.conf
+    dest: /usr/local/etc/pkg/repos/FreeBSD.conf
+- name: Change repository branch from 'quaterly' to 'latest'
+  become: true
+  ansible.builtin.replace:
+    path: /usr/local/etc/pkg/repos/FreeBSD.conf
+    regexp: 'url\: "pkg\+http\:\/\/pkg\.FreeBSD\.org\/\$\{ABI\}\/quaterly"'
+    replace: 'url: "pkg+http://pkg.FreeBSD.org/${ABI}/latest"'
+- name: Update repository cache
+  become: true
+  ansible.builtin.shell:
+    cmd: pkg update
+- name: Upgrade packages
+  become: true
+  ansible.builtin.shell:
+    cmd: pkg upgrade
