@@ -5,7 +5,6 @@ sonarr:
   config:
     host:
       analyticsEnabled: false
-      urlBase: /sonarr
     ui:
       firstDayOfWeek: 0
       timeFormat: HH:mm
@@ -69,7 +68,6 @@ radarr:
   config:
     host:
       analyticsEnabled: false
-      urlBase: /radarr
     ui:
       firstDayOfWeek: 0
       timeFormat: HH:mm
@@ -545,7 +543,7 @@ prowlarr:
         - name: prowlarrUrl
           value: http://localhost:9696
         - name: baseUrl
-          value: http://localhost:8989/sonarr
+          value: http://localhost:8989
         - name: apiKey
           value: {{ sonarr_api_key.stdout }}
         - name: syncCategories
@@ -571,7 +569,7 @@ prowlarr:
         - name: prowlarrUrl
           value: http://localhost:9696
         - name: baseUrl
-          value: http://localhost:7878/radarr
+          value: http://localhost:7878
         - name: apiKey
           value: {{ radarr_api_key.stdout }}
         - name: syncCategories

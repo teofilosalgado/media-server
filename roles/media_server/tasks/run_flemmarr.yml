@@ -17,11 +17,11 @@
     virtualenv_command: python3 -m venv
 - name: Get Sonarr API key
   ansible.builtin.shell:
-    cmd: "curl -s http://localhost:8989/initialize.js | sed -nr \"s/\\s*apiKey: '(\\S+)',/\\1/p\""
+    cmd: "curl -s http://localhost:8989/initialize.js | sed -n -r -E \"s/^.*apiKey:.*'(.*)',/\\1/p\""
   register: sonarr_api_key
 - name: Get Radarr API key
   ansible.builtin.shell:
-    cmd: "curl -s http://localhost:7878/initialize.js | sed -nr \"s/\\s*apiKey: '(\\S+)',/\\1/p\""
+    cmd: "curl -s http://localhost:7878/initialize.js | sed -n -r -E \"s/^.*apiKey:.*'(.*)',/\\1/p\""
   register: radarr_api_key
 - name: Create config folder
   ansible.builtin.file:
@@ -37,3 +37,7 @@
   ansible.builtin.shell:
     chdir: /tmp/flemmar/src
     cmd: /tmp/flemmar/.venv/bin/python run.py
+- name: Remove Flemmar after execution
+  file:
+    state: absent
+    path: /tmp/flemmar

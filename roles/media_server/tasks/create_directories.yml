@@ -16,14 +16,14 @@
     mode: 0775
 - name: Create series folder
   ansible.builtin.file:
-    path: /usr/local/etc/sonarr/series
+    path: /home/sonarr/series
     state: directory
     owner: sonarr
     group: transmission
     mode: 0775
 - name: Create movies folder
   ansible.builtin.file:
-    path: /usr/local/etc/radarr/movies
+    path: /home/radarr/movies
     state: directory
     owner: radarr
     group: transmission
