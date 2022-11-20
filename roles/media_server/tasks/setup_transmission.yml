@@ -1,0 +1,38 @@
+---
+- name: Install Transmission
+  ansible.builtin.package:
+    name:
+      - transmission-cli
+      - transmission-daemon
+      - transmission-web
+    state: present
+- name: Enable Transmission
+  community.general.sysrc:
+    name: transmission_enable
+    value: "TRUE"
+- name: Start Transmission service
+  ansible.builtin.service:
+    name: transmission
+    state: started
+- name: Stop Transmission service
+  ansible.builtin.service:
+    name: transmission
+    state: stopped
+- name: Configure Transmission RPC whitelist
+  ansible.builtin.replace:
+    path: /usr/local/etc/transmission/home/settings.json
+    after: '"rpc-whitelist-enabled": '
+    before: ","
+    regexp: "true"
+    replace: "false"
+- name: Configure Transmission downloads umask
+  ansible.builtin.replace:
+    path: /usr/local/etc/transmission/home/settings.json
+    after: '"umask": '
+    before: ","
+    regexp: "18"
+    replace: "2"
+- name: Start Transmission service
+  ansible.builtin.service:
+    name: transmission
+    state: started

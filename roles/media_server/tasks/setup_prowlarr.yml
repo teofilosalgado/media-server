@@ -1,0 +1,13 @@
+---
+- name: Install Prowlarr
+  ansible.builtin.package:
+    name: prowlarr
+    state: present
+- name: Enable Prowlarr
+  community.general.sysrc:
+    name: prowlarr_enable
+    value: "TRUE"
+- name: Start Prowlarr service
+  ansible.builtin.service:
+    name: prowlarr
+    state: started

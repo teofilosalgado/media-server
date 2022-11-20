@@ -1,0 +1,20 @@
+---
+# tasks file for media_server
+- name: Configure repositories
+  ansible.builtin.import_tasks: configure_repository.yml
+- name: Setup Sonarr
+  ansible.builtin.import_tasks: setup_sonarr.yml
+- name: Setup Radarr
+  ansible.builtin.import_tasks: setup_radarr.yml
+- name: Setup Prowlarr
+  ansible.builtin.import_tasks: setup_prowlarr.yml
+- name: Setup Transmission
+  ansible.builtin.import_tasks: setup_transmission.yml
+- name: Create directories
+  ansible.builtin.import_tasks: create_directories.yml
+- name: Setup Plex
+  ansible.builtin.import_tasks: setup_plex.yml
+- name: Setup Overseerr
+  ansible.builtin.import_tasks: setup_overseerr.yml
+- name: Run Flemmarr
+  ansible.builtin.import_tasks: run_flemmarr.yml

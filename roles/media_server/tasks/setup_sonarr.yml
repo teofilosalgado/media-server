@@ -1,0 +1,13 @@
+---
+- name: Install Sonarr
+  ansible.builtin.package:
+    name: sonarr
+    state: present
+- name: Enable Sonarr
+  community.general.sysrc:
+    name: sonarr_enable
+    value: "TRUE"
+- name: Start Sonarr service
+  ansible.builtin.service:
+    name: sonarr
+    state: started

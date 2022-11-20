@@ -32,38 +32,36 @@ sonarr:
       defaultQualityProfileId: 1
       defaultMetadataProfileId: 1
   downloadclient:
-    - name: qBittorrent
+    - name: Transmission
       enable: true
       protocol: torrent
       priority: 1
       removeCompletedDownloads: true
       removeFailedDownloads: true
       fields:
-        - name: host
-          value: localhost
-        - name: port
-          value: 8080
-        - name: useSsl
-          value: false
-        - name: username
-          value: admin
-        - name: password
-          value: adminadmin
-        - name: tvCategory
-          value: sonarr
-        - name: recentTvPriority
-          value: 0
-        - name: olderTvPriority
-          value: 0
-        - name: initialState
-          value: 0
-        - name: sequentialOrder
-          value: false
-        - name: firstAndLast
-          value: false
-      implementationName: qBittorrent
-      implementation: QBittorrent
-      configContract: QBittorrentSettings
+      - name: host
+        value: localhost
+      - name: port
+        value: 9091
+      - name: useSsl
+        value: false
+      - name: urlBase
+        value: "/transmission/"
+      - name: username
+      - name: password
+      - name: tvCategory
+      - name: tvDirectory
+      - name: recentTvPriority
+        value: 0
+      - name: olderTvPriority
+        value: 0
+      - name: addPaused
+        value: false
+      implementationName: Transmission
+      implementation: Transmission
+      configContract: TransmissionSettings
+      infoLink: https://wiki.servarr.com/sonarr/supported#transmission
+      tags: []
 radarr:
   server:
     address: localhost
@@ -91,38 +89,36 @@ radarr:
       defaultQualityProfileId: 1
       defaultMetadataProfileId: 1
   downloadclient:
-    - name: qBittorrent
+    - name: Transmission
       enable: true
       protocol: torrent
       priority: 1
       removeCompletedDownloads: true
       removeFailedDownloads: true
       fields:
-        - name: host
-          value: localhost
-        - name: port
-          value: 8080
-        - name: useSsl
-          value: false
-        - name: username
-          value: admin
-        - name: password
-          value: adminadmin
-        - name: movieCategory
-          value: radarr
-        - name: recentMoviePriority
-          value: 0
-        - name: olderMoviePriority
-          value: 0
-        - name: initialState
-          value: 0
-        - name: sequentialOrder
-          value: false
-        - name: firstAndLast
-          value: false
-      implementationName: qBittorrent
-      implementation: QBittorrent
-      configContract: QBittorrentSettings
+      - name: host
+        value: localhost
+      - name: port
+        value: 9091
+      - name: useSsl
+        value: false
+      - name: urlBase
+        value: "/transmission/"
+      - name: username
+      - name: password
+      - name: tvCategory
+      - name: tvDirectory
+      - name: recentTvPriority
+        value: 0
+      - name: olderTvPriority
+        value: 0
+      - name: addPaused
+        value: false
+      implementationName: Transmission
+      implementation: Transmission
+      configContract: TransmissionSettings
+      infoLink: https://wiki.servarr.com/sonarr/supported#transmission
+      tags: []
 prowlarr:
   server:
     address: localhost

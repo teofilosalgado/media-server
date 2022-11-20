@@ -1,0 +1,13 @@
+---
+- name: Install Plex
+  ansible.builtin.package:
+    name: plexmediaserver
+    state: present
+- name: Enable Plex
+  community.general.sysrc:
+    name: plexmediaserver_enable
+    value: "TRUE"
+- name: Start Plex service
+  ansible.builtin.service:
+    name: plexmediaserver
+    state: started

@@ -1,5 +1,6 @@
 ---
-- hosts: media_server
+- name: Media server installation
+  hosts: media_server
   remote_user: root
   roles:
     - media_server

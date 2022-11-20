@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-ansible-playbook -i ./inventory.ini ./main.ansible.yml -v
+ANSIBLE_HOST_KEY_CHECKING=false && ansible-playbook -i ./inventory.ini ./main.ansible.yml -v

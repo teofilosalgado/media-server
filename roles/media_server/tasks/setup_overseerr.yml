@@ -1,0 +1,22 @@
+---
+- name: Install dependencies
+  ansible.builtin.package:
+    name:
+      - git
+      - node16
+      - yarn-node16
+      - python3
+      - gmake
+    state: present
+- name: Create Overseerr group
+  ansible.builtin.group:
+    name: overseerr
+- name: Create Overseerr user
+  ansible.builtin.user:
+    name: overseerr
+    group: overseerr
+    comment: Overseerr
+- name: Clone latest Overseerr version
+  ansible.builtin.git:
+    repo: https://github.com/sct/overseerr.git
+    dest: /usr/local/share/overseerr

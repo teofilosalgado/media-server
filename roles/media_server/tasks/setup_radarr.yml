@@ -1,0 +1,13 @@
+---
+- name: Install Radarr
+  ansible.builtin.package:
+    name: radarr
+    state: present
+- name: Enable Radarr
+  community.general.sysrc:
+    name: radarr_enable
+    value: "TRUE"
+- name: Start Radarr service
+  ansible.builtin.service:
+    name: radarr
+    state: started

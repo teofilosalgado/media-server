@@ -1,6 +1,10 @@
 galaxy_info:
   author: teofilosalgado
   description: An opinionated Ansible-based media server deployment.
+  platforms:
+    - name: FreeBSD
+      versions:
+        - all
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value

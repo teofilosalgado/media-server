@@ -1,0 +1,42 @@
+---
+- name: Add sonarr user to transmission group
+  ansible.builtin.user:
+    name: sonarr
+    groups: transmission
+    append: true
+- name: Add radarr user to transmission group
+  ansible.builtin.user:
+    name: radarr
+    groups: transmission
+    append: true
+- name: Change downloads directory permissions
+  ansible.builtin.file:
+    path: /usr/local/etc/transmission/home/Downloads
+    state: directory
+    mode: 0775
+- name: Create series folder
+  ansible.builtin.file:
+    path: /usr/local/etc/sonarr/series
+    state: directory
+    owner: sonarr
+    group: transmission
+    mode: 0775
+- name: Create movies folder
+  ansible.builtin.file:
+    path: /usr/local/etc/radarr/movies
+    state: directory
+    owner: radarr
+    group: transmission
+    mode: 0775
+- name: Restart Sonarr service
+  ansible.builtin.service:
+    name: sonarr
+    state: restarted
+- name: Restart Radarr service
+  ansible.builtin.service:
+    name: sonarr
+    state: restarted
+- name: Restart Transmission service
+  ansible.builtin.service:
+    name: transmission
+    state: restarted
