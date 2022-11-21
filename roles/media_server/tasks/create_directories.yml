@@ -20,6 +20,7 @@
     state: directory
     owner: sonarr
     group: transmission
+    recurse: true
     mode: 0775
 - name: Create movies folder
   ansible.builtin.file:
@@ -27,6 +28,7 @@
     state: directory
     owner: radarr
     group: transmission
+    recurse: true
     mode: 0775
 - name: Restart Sonarr service
   ansible.builtin.service:

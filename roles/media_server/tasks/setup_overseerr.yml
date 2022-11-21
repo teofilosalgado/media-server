@@ -19,17 +19,20 @@
 - name: Clone latest Overseerr version
   ansible.builtin.git:
     repo: https://github.com/sct/overseerr.git
-    dest: /usr/local/share/overseerr
+    dest: /usr/local/overseerr
     version: master
 - name: Install Overseerr dependencies
   ansible.builtin.shell:
-    cmd: CYPRESS_INSTALL_BINARY=0 yarn install --frozen-lockfile --network-timeout 1000000
-    chdir: /usr/local/share/overseerr
+    cmd: env CYPRESS_INSTALL_BINARY=0 yarn install --frozen-lockfile --network-timeout 1000000
+    chdir: /usr/local/overseerr
 - name: Build Overseerr
   ansible.builtin.shell:
     cmd: yarn build
-    chdir: /usr/local/share/overseerr
-- name: Remove development dependencies
-  ansible.builtin.shell:
-    cmd: yarn install --production --ignore-scripts --prefer-offline
-    chdir: /usr/local/share/overseerr
+    chdir: /usr/local/overseerr
+- name: Change Overseerr directory owner
+  ansible.builtin.file:
+    path: /usr/local/overseerr
+    state: directory
+    owner: overseerr
+    group: overseerr
+    recurse: true
