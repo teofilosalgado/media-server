@@ -1,6 +1,6 @@
 sonarr:
   server:
-    address: localhost
+    address: sonarr
     port: 8989
   config:
     host:
@@ -26,7 +26,7 @@ sonarr:
       numberStyle: S{season:00}E{episode:00}
   rootfolder:
     - name: Series
-      path: /home/sonarr/series
+      path: /media
       defaultTags: []
       defaultQualityProfileId: 1
       defaultMetadataProfileId: 1
@@ -39,7 +39,7 @@ sonarr:
       removeFailedDownloads: true
       fields:
       - name: host
-        value: localhost
+        value: transmission
       - name: port
         value: 9091
       - name: useSsl
@@ -63,7 +63,7 @@ sonarr:
       tags: []
 radarr:
   server:
-    address: localhost
+    address: radarr
     port: 7878
   config:
     host:
@@ -82,7 +82,7 @@ radarr:
       replaceSpaces: false
   rootfolder:
     - name: Movies
-      path: /home/radarr/movies
+      path: /media
       defaultTags: []
       defaultQualityProfileId: 1
       defaultMetadataProfileId: 1
@@ -95,7 +95,7 @@ radarr:
       removeFailedDownloads: true
       fields:
       - name: host
-        value: localhost
+        value: transmission
       - name: port
         value: 9091
       - name: useSsl
@@ -119,7 +119,7 @@ radarr:
       tags: []
 prowlarr:
   server:
-    address: localhost
+    address: prowlarr
     port: 9696
   config:
     host:
@@ -541,9 +541,9 @@ prowlarr:
       syncLevel: addOnly
       fields:
         - name: prowlarrUrl
-          value: http://localhost:9696
+          value: http://prowlarr:9696
         - name: baseUrl
-          value: http://localhost:8989
+          value: http://sonarr:8989
         - name: apiKey
           value: {{ sonarr_api_key.stdout }}
         - name: syncCategories
@@ -567,9 +567,9 @@ prowlarr:
       syncLevel: addOnly
       fields:
         - name: prowlarrUrl
-          value: http://localhost:9696
+          value: http://prowlarr:9696
         - name: baseUrl
-          value: http://localhost:7878
+          value: http://radarr:7878
         - name: apiKey
           value: {{ radarr_api_key.stdout }}
         - name: syncCategories

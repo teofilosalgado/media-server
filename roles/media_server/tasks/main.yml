@@ -1,20 +1,157 @@
 ---
 # tasks file for media_server
-# - name: Configure repositories
-#   ansible.builtin.import_tasks: configure_repository.yml
-# - name: Setup Sonarr
-#   ansible.builtin.import_tasks: setup_sonarr.yml
-# - name: Setup Radarr
-#   ansible.builtin.import_tasks: setup_radarr.yml
-# - name: Setup Prowlarr
-#   ansible.builtin.import_tasks: setup_prowlarr.yml
-# - name: Setup Transmission
-#   ansible.builtin.import_tasks: setup_transmission.yml
-# - name: Create directories
-#   ansible.builtin.import_tasks: create_directories.yml
-# - name: Setup Plex
-#   ansible.builtin.import_tasks: setup_plex.yml
-- name: Setup Overseerr
-  ansible.builtin.import_tasks: setup_overseerr.yml
-# - name: Run Flemmarr
-#   ansible.builtin.import_tasks: run_flemmarr.yml
+- name: Install dependencies
+  ansible.builtin.import_tasks: install_dependencies.yml
+- name: Setup users
+  ansible.builtin.import_tasks: setup_users.yml
+- name: Create directories
+  ansible.builtin.import_tasks: create_directories.yml
+- name: Create media_server pod
+  become_user: media_server
+  become: true
+  containers.podman.podman_pod:
+    name: media_server
+    state: started
+    ports:
+      - 8989:8989 # Sonarr
+      - 7878:7878 # Radarr
+      - 9696:9696 # Prowlarr
+      - 6767:6767 # Bazarr
+      - 9091:9091 # Transmission
+      - 51413:51413 # Transmission
+      - 51413:51413/udp # Transmission
+      - 5055:5055 # Overseerr
+      - 32400:32400 # Plex
+- name: Run Sonarr container
+  become_user: media_server
+  become: true
+  containers.podman.podman_container:
+    name: sonarr
+    pod: media_server
+    image: lscr.io/linuxserver/sonarr:latest
+    state: started
+    volume:
+      - /data/sonarr/config:/config
+      - /data/sonarr/media:/media
+      - /data/transmission/downloads:/downloads
+    env:
+      PUID: "{{ sonarr_user_id.stdout }}"
+      PGID: "{{ media_server_group_id.stdout }}"
+      TZ: America/Sao_Paulo
+- name: Run Radarr container
+  become_user: media_server
+  become: true
+  containers.podman.podman_container:
+    name: radarr
+    pod: media_server
+    image: lscr.io/linuxserver/radarr:latest
+    state: started
+    volume:
+      - /data/radarr/config:/config
+      - /data/radarr/media:/media
+      - /data/transmission/downloads:/downloads
+    env:
+      PUID: "{{ radarr_user_id.stdout }}"
+      PGID: "{{ media_server_group_id.stdout }}"
+      TZ: America/Sao_Paulo
+- name: Run Prowlarr container
+  become_user: media_server
+  become: true
+  containers.podman.podman_container:
+    name: prowlarr
+    pod: media_server
+    image: lscr.io/linuxserver/prowlarr:develop
+    state: started
+    volume:
+      - /data/prowlarr/config:/config
+    env:
+      PUID: "{{ prowlarr_user_id.stdout }}"
+      PGID: "{{ media_server_group_id.stdout }}"
+      TZ: America/Sao_Paulo
+- name: Run Bazarr container
+  become_user: media_server
+  become: true
+  containers.podman.podman_container:
+    name: bazarr
+    pod: media_server
+    image: lscr.io/linuxserver/bazarr:latest
+    state: started
+    volume:
+      - /data/bazarr/config:/config
+      - /data/sonarr/media:/sonarr
+      - /data/radarr/media:/radarr
+    env:
+      PUID: "{{ prowlarr_user_id.stdout }}"
+      PGID: "{{ media_server_group_id.stdout }}"
+      TZ: America/Sao_Paulo
+- name: Run Transmission container
+  become_user: media_server
+  become: true
+  containers.podman.podman_container:
+    name: transmission
+    pod: media_server
+    image: lscr.io/linuxserver/transmission:latest
+    state: started
+    volume:
+      - /data/transmission/config:/config
+      - /data/transmission/downloads:/downloads
+      - /data/transmission/watch:/watch
+    env:
+      PUID: "{{ transmission_user_id.stdout }}"
+      PGID: "{{ media_server_group_id.stdout }}"
+      TZ: America/Sao_Paulo
+- name: Run Overseerr container
+  become_user: media_server
+  become: true
+  containers.podman.podman_container:
+    name: overseerr
+    pod: media_server
+    image: lscr.io/linuxserver/overseerr:latest
+    state: started
+    volume:
+      - /data/overseerr/config:/config
+    env:
+      PUID: "{{ overseerr_user_id.stdout }}"
+      PGID: "{{ media_server_group_id.stdout }}"
+      TZ: America/Sao_Paulo
+- name: Run Plex container
+  become_user: media_server
+  become: true
+  containers.podman.podman_container:
+    name: plex
+    pod: media_server
+    image: lscr.io/linuxserver/plex:latest
+    state: started
+    volume:
+      - /data/plex/config:/config
+      - /data/sonarr/media:/sonarr
+      - /data/radarr/media:/radarr
+    env:
+      PUID: "{{ plex_user_id.stdout }}"
+      PGID: "{{ media_server_group_id.stdout }}"
+      TZ: America/Sao_Paulo
+- name: Get Sonarr API key
+  ansible.builtin.shell:
+    cmd: "curl -s http://localhost:8989/initialize.js | sed -n -r -E \"s/^.*apiKey:.*'(.*)',/\\1/p\""
+  register: sonarr_api_key
+- name: Get Radarr API key
+  ansible.builtin.shell:
+    cmd: "curl -s http://localhost:7878/initialize.js | sed -n -r -E \"s/^.*apiKey:.*'(.*)',/\\1/p\""
+  register: radarr_api_key
+- name: Copy the Flemmar configuration file to the host
+  ansible.builtin.template:
+    src: templates/flemmarr.yml.j2
+    dest: /data/flemmarr/config/config.yml
+    group: flemmarr
+    owner: flemmarr
+    mode: 0644
+- name: Run Flemmarr container
+  become_user: media_server
+  become: true
+  containers.podman.podman_container:
+    name: flemmarr
+    pod: media_server
+    image: docker.io/pierremesure/flemmarr:latest
+    state: started
+    volume:
+      - /data/flemmarr/config:/config

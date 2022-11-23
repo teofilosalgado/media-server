@@ -1,0 +1,167 @@
+---
+# Base pod user (media_server)
+- name: Create media_server group
+  ansible.builtin.group:
+    name: media_server
+- name: Create media_server user
+  ansible.builtin.user:
+    name: media_server
+    group: media_server
+    comment: Media Server
+- name: Get media_server group ID
+  ansible.builtin.shell:
+    cmd: "getent group media_server | cut -d: -f3"
+  register: media_server_group_id
+
+# Sonarr
+- name: Create sonarr group
+  ansible.builtin.group:
+    name: sonarr
+- name: Create sonarr user
+  ansible.builtin.user:
+    name: sonarr
+    group: sonarr
+    comment: Sonarr
+- name: Add sonarr user to the media_server group
+  ansible.builtin.user:
+    name: sonarr
+    groups: media_server
+    append: true
+- name: Get sonarr user ID
+  ansible.builtin.shell:
+    cmd: "id -u sonarr"
+  register: sonarr_user_id
+
+# Radarr
+- name: Create radarr group
+  ansible.builtin.group:
+    name: radarr
+- name: Create radarr user
+  ansible.builtin.user:
+    name: radarr
+    group: radarr
+    comment: Radarr
+- name: Add radarr user to the media_server group
+  ansible.builtin.user:
+    name: radarr
+    groups: media_server
+    append: true
+- name: Get radarr user ID
+  ansible.builtin.shell:
+    cmd: "id -u radarr"
+  register: radarr_user_id
+
+# Prowlarr
+- name: Create prowlarr group
+  ansible.builtin.group:
+    name: prowlarr
+- name: Create prowlarr user
+  ansible.builtin.user:
+    name: prowlarr
+    group: prowlarr
+    comment: Prowlarr
+- name: Add prowlarr user to the media_server group
+  ansible.builtin.user:
+    name: prowlarr
+    groups: media_server
+    append: true
+- name: Get prowlarr user ID
+  ansible.builtin.shell:
+    cmd: "id -u prowlarr"
+  register: prowlarr_user_id
+
+# Bazarr
+- name: Create bazarr group
+  ansible.builtin.group:
+    name: bazarr
+- name: Create bazarr user
+  ansible.builtin.user:
+    name: bazarr
+    group: bazarr
+    comment: Bazarr
+- name: Add bazarr user to the media_server group
+  ansible.builtin.user:
+    name: radarr
+    groups: media_server
+    append: true
+- name: Get bazarr user ID
+  ansible.builtin.shell:
+    cmd: "id -u bazarr"
+  register: bazarr_user_id
+
+# Flemmarr
+- name: Create flemmarr group
+  ansible.builtin.group:
+    name: flemmarr
+- name: Create flemmarr user
+  ansible.builtin.user:
+    name: flemmarr
+    group: flemmarr
+    comment: Flemmarr
+- name: Add flemarr user to the media_server group
+  ansible.builtin.user:
+    name: flemarr
+    groups: media_server
+    append: true
+- name: Add flemmarr user to the media_server group
+  ansible.builtin.user:
+    name: flemmarr
+    groups: media_server
+    append: true
+
+# Transmission
+- name: Create transmission group
+  ansible.builtin.group:
+    name: transmission
+- name: Create transmission user
+  ansible.builtin.user:
+    name: transmission
+    group: transmission
+    comment: Transmission
+- name: Add transmission user to the media_server group
+  ansible.builtin.user:
+    name: transmission
+    groups: media_server
+    append: true
+- name: Get transmission user ID
+  ansible.builtin.shell:
+    cmd: "id -u transmission"
+  register: transmission_user_id
+
+# Overseerr
+- name: Create overseerr group
+  ansible.builtin.group:
+    name: overseerr
+- name: Create overseerr user
+  ansible.builtin.user:
+    name: overseerr
+    group: overseerr
+    comment: Overseerr
+- name: Add overseerr user to the media_server group
+  ansible.builtin.user:
+    name: overseerr
+    groups: media_server
+    append: true
+- name: Get overseerr user ID
+  ansible.builtin.shell:
+    cmd: "id -u overseerr"
+  register: overseerr_user_id
+
+# Plex
+- name: Create plex group
+  ansible.builtin.group:
+    name: plex
+- name: Create plex user
+  ansible.builtin.user:
+    name: plex
+    group: plex
+    comment: Plex
+- name: Add plex user to the media_server group
+  ansible.builtin.user:
+    name: plex
+    groups: media_server
+    append: true
+- name: Get plex user ID
+  ansible.builtin.shell:
+    cmd: "id -u plex"
+  register: plex_user_id

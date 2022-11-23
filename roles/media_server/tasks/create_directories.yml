@@ -1,44 +1,100 @@
 ---
-- name: Add sonarr user to transmission group
-  ansible.builtin.user:
-    name: sonarr
-    groups: transmission
-    append: true
-- name: Add radarr user to transmission group
-  ansible.builtin.user:
-    name: radarr
-    groups: transmission
-    append: true
-- name: Change downloads directory permissions
+- name: Create Sonarr media folder
   ansible.builtin.file:
-    path: /usr/local/etc/transmission/home/Downloads
-    state: directory
-    mode: 0775
-- name: Create series folder
-  ansible.builtin.file:
-    path: /home/sonarr/series
-    state: directory
+    path: /data/sonarr/media
     owner: sonarr
-    group: transmission
-    recurse: true
-    mode: 0775
-- name: Create movies folder
-  ansible.builtin.file:
-    path: /home/radarr/movies
+    group: sonarr
     state: directory
-    owner: radarr
-    group: transmission
-    recurse: true
     mode: 0775
-- name: Restart Sonarr service
-  ansible.builtin.service:
-    name: sonarr
-    state: restarted
-- name: Restart Radarr service
-  ansible.builtin.service:
-    name: sonarr
-    state: restarted
-- name: Restart Transmission service
-  ansible.builtin.service:
-    name: transmission
-    state: restarted
+- name: Create Sonarr settings folder
+  ansible.builtin.file:
+    path: /data/sonarr/config
+    owner: sonarr
+    group: media
+    state: directory
+    mode: 0775
+
+- name: Create Radarr media folder
+  ansible.builtin.file:
+    path: /data/radarr/media
+    owner: radarr
+    group: media
+    state: directory
+    mode: 0775
+- name: Create Radarr settings folder
+  ansible.builtin.file:
+    path: /data/radarr/config
+    owner: radarr
+    group: radarr
+    state: directory
+    mode: 0775
+
+- name: Create Transmission downloads folder
+  ansible.builtin.file:
+    path: /data/transmission/downloads
+    owner: transmission
+    group: media
+    state: directory
+    mode: 0775
+- name: Create Transmission settings folder
+  ansible.builtin.file:
+    path: /data/transmission/config
+    owner: transmission
+    group: transmission
+    state: directory
+    mode: 0775
+- name: Create Transmission watch folder
+  ansible.builtin.file:
+    path: /data/transmission/watch
+    owner: transmission
+    group: transmission
+    state: directory
+    mode: 0775
+
+- name: Create Prowlarr settings folder
+  ansible.builtin.file:
+    path: /data/prowlarr/config
+    owner: prowlarr
+    group: prowlarr
+    state: directory
+    mode: 0775
+
+- name: Create Bazarr settings folder
+  ansible.builtin.file:
+    path: /data/bazarr/config
+    owner: bazarr
+    group: bazarr
+    state: directory
+    mode: 0775
+
+- name: Create Overseerr settings folder
+  ansible.builtin.file:
+    path: /data/overseerr/config
+    owner: overseerr
+    group: overseerr
+    state: directory
+    mode: 0775
+
+- name: Create Plex settings folder
+  ansible.builtin.file:
+    path: /data/plex/config
+    owner: plex
+    group: plex
+    state: directory
+    mode: 0775
+
+- name: Create Flemmarr settings folder
+  ansible.builtin.file:
+    path: /data/flemmarr/config
+    owner: flemmarr
+    group: flemmarr
+    state: directory
+    mode: 0775
+
+- name: Create NGINX settings folder
+  ansible.builtin.file:
+    path: /data/nginx/config
+    owner: nginx
+    group: nginx
+    state: directory
+    mode: 0775

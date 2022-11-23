@@ -1,64 +1,77 @@
-server {
-    listen 80;
+events {
 
-    location ^~ /sonarr {
-        proxy_pass http://127.0.0.1:8989/sonarr;
-        proxy_set_header Host $proxy_host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Host $host;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_redirect off;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $http_connection;
-    }
+}
 
-    location ^~ /sonarr/api {
-        auth_request off;
-        proxy_pass http://127.0.0.1:8989;
-    }
+http {
+    error_log /etc/nginx/error_log.log warn;
+    client_max_body_size 20m;
+    proxy_cache_path /etc/nginx/cache keys_zone=one:500m max_size=1000m;
 
-    location ^~ /radarr {
-        proxy_pass http://127.0.0.1:7878;
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Host $host;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_redirect off;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $http_connection;
-    }
+    server {
+        large_client_header_buffers 4 16k;
 
-    location ^~ /radarr/api {
-        auth_basic off;
-        proxy_pass http://127.0.0.1:7878;
-    }
+        location ^~ /mediaserver/sonarr {
+            proxy_pass http://sonarr:8989/sonarr;
+            proxy_set_header Host $proxy_host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Host $host;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_redirect off;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $http_connection;
+        }
 
-    location ~ /prowlarr {
-        proxy_pass http://127.0.0.1:9696;
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Host $host;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_redirect off;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $http_connection;
-    }
+        location ^~ /mediaserver/sonarr/api {
+            auth_request off;
+            proxy_pass http://sonarr:8989;
+        }
 
-    location ^~ /prowlarr(/[0-9]+)?/api {
-        auth_basic off;
-        proxy_pass http://127.0.0.1:9696;
-    }
+        location ^~ /mediaserver/radarr {
+            proxy_pass http://radarr:7878;
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Host $host;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_redirect off;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $http_connection;
+        }
 
-    location /qbittorrent/ {
-        proxy_pass http://127.0.0.1:8080/;
-        proxy_set_header X-Forwarded-Host $server_name:$server_port;
-        proxy_hide_header Referer;
-        proxy_hide_header Origin;
-        proxy_set_header Referer '';
-        proxy_set_header Origin '';
-        add_header X-Frame-Options "SAMEORIGIN";
+        location ^~ /mediaserver/radarr/api {
+            auth_basic off;
+            proxy_pass http://radarr:7878;
+        }
+
+        location ~ /mediaserver/prowlarr {
+            proxy_pass http://prowlarr:9696;
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Host $host;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_redirect off;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $http_connection;
+        }
+
+        location ^~ /mediaserver/prowlarr(/[0-9]+)?/api {
+            auth_basic off;
+            proxy_pass http://prowlarr:9696;
+        }
+
+        location ^~ /mediaserver/transmission {
+            proxy_read_timeout 300;
+            proxy_pass_header X-Transmission-Session-Id;
+            proxy_set_header X-Forwarded-Host $host;
+            proxy_set_header X-Forwarded-Server $host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;       
+            proxy_pass http://transmission:9091/transmission/web/;
+        }
+
+        location ^~ /mediaserver/transmission/rpc {
+            proxy_pass http://transmission:9091/transmission/rpc;
+        }
     }
 }
