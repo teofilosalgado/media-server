@@ -1,0 +1,15 @@
+[Unit]
+Description=Sonarr Daemon
+After=syslog.target network.target
+
+[Service]
+User=sonarr
+Group=media
+Type=simple
+ExecStart=/opt/Sonarr/Sonarr -nobrowser -data=/var/lib/sonarr/
+TimeoutStopSec=30
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

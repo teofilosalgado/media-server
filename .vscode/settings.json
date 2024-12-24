@@ -1,0 +1,8 @@
+{
+    "yaml.schemas": {
+        "Kubernetes": [
+            "**/deploy*.yaml"
+        ],
+        "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.22.4-standalone-strict/all.json": "file:///home/salgado/workspace/media-server/deployment/stack/deployment.yml"
+    }
+}
