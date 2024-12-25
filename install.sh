@@ -5,14 +5,14 @@ if (( $EUID != 0 )); then
     exit 1
 fi
 
-# TODO: Create command line flags
-is_clean_install=false
-
 # Install prerequisites and create file structure
 source setup/install.sh
 
 # Install Nginx
 source services/nginx/install.sh
+
+# Install qBittorrent
+source services/qbittorrent-nox/install.sh
 
 # Install Sonarr
 source services/sonarr/install.sh
@@ -26,6 +26,7 @@ source services/bazarr/install.sh
 # Install Prowlarr
 source services/prowlarr/install.sh
 
-# qbittorrent
-# overseerr
-# recyclarr
+# Install Jellyfin
+source services/jellyfin/install.sh
+
+# Install Recyclarr

@@ -11,6 +11,12 @@ firewall-cmd --permanent --add-service=https
 firewall-cmd --reload
 echo "HTTP and HTTPS firewall services added"
 
+# Allow auto-discovery ports
+firewall-cmd --permanent --add-port=1900/udp 
+firewall-cmd --permanent --add-port=7359/udp 
+firewall-cmd --reload
+echo "Auto-discovery firewall ports added"
+
 # Create self-signed certificate
 if [[ ! -f "/usr/local/nginx/ssl/certificate.key" && ! -f "/usr/local/nginx/ssl/certificate.crt" ]]; then
     mkdir -p /usr/local/nginx/ssl
