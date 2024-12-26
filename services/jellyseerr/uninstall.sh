@@ -7,6 +7,7 @@ fi
 
 systemctl -q stop jellyseerr
 rm -rf /opt/jellyseerr
+rm -rf /etc/jellyseerr
 rm -rf /etc/systemd/system/jellyseerr.service
 systemctl -q daemon-reload
 

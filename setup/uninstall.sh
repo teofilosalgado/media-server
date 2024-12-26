@@ -5,7 +5,7 @@ if (( $EUID != 0 )); then
     exit 1
 fi
 
-zypper --non-interactive remove 7zip git libicu sqlite3 openssl python311 python311-devel python311-pip unrar unzip wget
+zypper --non-interactive remove 7zip git libicu nodejs-default npm-default pnpm python311 python311-devel python311-pip sqlite3 unrar unzip wget yq
 groupdel -f media
 userdel -f media
 rm -rf /data
