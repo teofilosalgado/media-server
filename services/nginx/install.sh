@@ -37,6 +37,7 @@ cp services/nginx/assets/proxy_params /etc/nginx/proxy_params
 echo "Site created"
 
 # Restart Nginx service
+systemctl enable nginx
 systemctl restart nginx
 echo "Nginx service restarted"
 
