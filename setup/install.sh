@@ -39,4 +39,4 @@ do
     echo "Created '$directory' folder at '/data/media'"
 done
 chown -R media:media /data
-chmod -R 664 /data
+chmod -R 770 /data
