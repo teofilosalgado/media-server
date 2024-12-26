@@ -5,7 +5,7 @@ if (( $EUID != 0 )); then
     exit 1
 fi
 
-zypper --non-interactive remove curl libicu sqlite3 openssl wget
+zypper --non-interactive remove 7zip git libicu sqlite3 openssl python311 python311-devel python311-pip unrar unzip wget
 groupdel -f media
 userdel -f media
 rm -rf /data

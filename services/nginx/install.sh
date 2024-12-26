@@ -17,6 +17,10 @@ firewall-cmd --permanent --add-port=7359/udp
 firewall-cmd --reload
 echo "Auto-discovery firewall ports added"
 
+# Install Nginx
+zypper --non-interactive install nginx
+echo "Nginx installed successfully"
+
 # Create self-signed certificate
 if [[ ! -f "/usr/local/nginx/ssl/certificate.key" && ! -f "/usr/local/nginx/ssl/certificate.crt" ]]; then
     mkdir -p /usr/local/nginx/ssl
@@ -26,10 +30,6 @@ if [[ ! -f "/usr/local/nginx/ssl/certificate.key" && ! -f "/usr/local/nginx/ssl/
         -days 365 -subj "/O=Media Server/CN=media-server"
     echo "Created SSL certificate at /usr/local/nginx/ssl"
 fi
-
-# Install Nginx
-zypper --non-interactive install nginx
-echo "Nginx installed successfully"
 
 # Create new site
 cp services/nginx/assets/media_server.conf /etc/nginx/conf.d/media_server.conf

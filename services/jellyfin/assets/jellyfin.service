@@ -1,15 +1,13 @@
 [Unit]
-Description=Jellyfin Daemon
-After=syslog.target network.target
+Description=Jellyfin
+After=network.target
 
 [Service]
+Type=simple
 User=jellyfin
 Group=media
-Type=simple
-ExecStart=/opt/jellyfin/jellyfin.sh
-TimeoutStopSec=30
-KillMode=process
 Restart=on-failure
+ExecStart=/opt/jellyfin/jellyfin.sh
 
 [Install]
 WantedBy=multi-user.target

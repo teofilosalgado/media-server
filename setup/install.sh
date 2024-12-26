@@ -6,7 +6,7 @@ if (( $EUID != 0 )); then
 fi
 
 # Install prerequisite packages
-zypper --non-interactive install 7zip curl libicu sqlite3 openssl python311 python311-devel python311-pip unrar unzip wget yq
+zypper --non-interactive install 7zip git libicu sqlite3 python311 python311-devel python311-pip unrar unzip wget
 echo "Prerequisites installed successfully"
 
 # Create the media group
