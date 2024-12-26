@@ -19,16 +19,15 @@ if [ ! -d "/opt/jellyseerr" ]; then
     echo "Downloaded Jellyseerr from $JELLYSEERR_DOWNLOAD_URL"
 fi
 
-# Fix Node.js reporting its own version with a "v" prefix to PNPM causing a
-# ERR_PNPM_UNSUPPORTED_ENGINE error
+# Fix Node.js reporting its own version with a "v" prefix to PNPM causing a ERR_PNPM_UNSUPPORTED_ENGINE error
 git -C /opt/jellyseerr apply "$PWD/services/jellyseerr/assets/fix_node_version.patch"
 echo "Patches applied"
 
 # Build Jellyseerr
-# set CYPRESS_INSTALL_BINARY=0
-# pnpm --dir /opt/jellyseerr install --frozen-lockfile
-# pnpm --dir /opt/jellyseerr run build
-# echo "Built Jellyseerr"
+set CYPRESS_INSTALL_BINARY=0
+pnpm --dir /opt/jellyseerr install --frozen-lockfile
+pnpm --dir /opt/jellyseerr run build
+echo "Built Jellyseerr"
 
 # Update ownership
 mkdir -p /etc/jellyseerr
@@ -43,3 +42,5 @@ systemctl daemon-reload
 systemctl enable jellyseerr
 systemctl start jellyseerr
 echo "Jellyseerr service created and started"
+
+echo "Jellyseerr installed successfully"

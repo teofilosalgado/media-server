@@ -54,3 +54,5 @@ systemctl daemon-reload
 systemctl enable jellyfin
 systemctl start jellyfin
 echo "Jellyfin service created and started"
+
+echo "Jellyfin installed successfully"

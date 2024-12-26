@@ -29,4 +29,8 @@ source services/prowlarr/install.sh
 # Install Jellyfin
 source services/jellyfin/install.sh
 
+# Install Jellyseerr
+source services/jellyseerr/install.sh
+
 # Install Recyclarr
+source services/recyclarr/install.sh
